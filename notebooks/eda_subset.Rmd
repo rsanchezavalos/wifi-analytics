@@ -1,0 +1,39 @@
+
+
+```{r, echo=FALSE}
+source('../utils.R')
+library(tidyverse)
+
+sheet_path <- '../data/muestra_20k.xlsx'
+# Load file
+sheet_list <- lapply(readxl::excel_sheets(sheet_path), readxl::read_excel, path=sheet_path)
+# Sheet names
+
+names(sheet_list) <- readxl::excel_sheets(sheet_path)
+```
+
+# Diccionario de Variables
+
+### Información de la Persona
+- mac	 (Media Access Control) Se la conoce también como dirección física, y es única para cada dispositivo.
+
+### Información del local
+- locations_location_id	Id de la sucursal en la que se conectó el dispositivo
+
+
+
+```{r}
+locations <- left_join(sheet_list$Locations, 
+                                  sheet_list$Nodes, 
+                                  by=c("location_id"="locations_location_id"))
+
+# Conexiones individuales con la información de la ubicación
+location_conections <- left_join(sheet_list$Connections, locations)
+```
+
+
+
+```{r}
+location_conections %>% group_by(mac, city, location_id) %>% summarise(n = n()) 
+```
+
