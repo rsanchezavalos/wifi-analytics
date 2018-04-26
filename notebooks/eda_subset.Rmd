@@ -4,12 +4,14 @@
 source('../utils.R')
 library(tidyverse)
 
-sheet_path <- '../data/muestra_20k.xlsx'
+sheet_path <- '../data/muestra_30k.xlsx'
 # Load file
 sheet_list <- lapply(readxl::excel_sheets(sheet_path), readxl::read_excel, path=sheet_path)
 # Sheet names
 
 names(sheet_list) <- readxl::excel_sheets(sheet_path)
+
+names(sheet_list)
 ```
 
 # Diccionario de Variables
