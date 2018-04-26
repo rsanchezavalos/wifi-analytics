@@ -3,6 +3,7 @@
 ```{r, echo=FALSE}
 source('../utils.R')
 library(tidyverse)
+library(ggraph)
 
 sheet_path <- '../data/muestra_30k.xlsx'
 # Load file
@@ -33,7 +34,45 @@ locations <- left_join(sheet_list$Locations,
 location_conections <- left_join(sheet_list$Connections, locations)
 ```
 
+```{r}
+library(ggraph)
 
+aristas <- location_conections %>% select(mac, location_id) 
+
+red_tbl <- tidygraph::as_tbl_graph(aristas, directed = TRUE)
+
+graficar_red_dirigida <- function(red_tbl){
+  ggraph(red_tbl) + 
+    geom_edge_link(arrow = arrow()) +
+    geom_node_point(size = 1, colour = 'salmon') +
+    theme_graph() + coord_fixed()
+}
+graficar_red_dirigida(red_tbl)
+
+
+
+```
+
+
+```{r}
+aristas <- location_conections %>% select(from=mac, to=location_id) %>% group_by(from, to) %>% summarise(n =n())
+
+library(igraph)
+highschool
+graph <- graph_from_data_frame(aristas)
+ggraph(graph) + 
+    geom_edge_link(aes(colour = factor(n))) + 
+    geom_node_point()
+
+```
+
+```{r}
+ggraph(graph, layout = 'linear', circular = TRUE) + 
+    geom_edge_link(aes(colour = factor(n))) + 
+    geom_edge_arc(aes(colour = factor(n)))
+
+
+```
 
 ```{r}
 location_conections %>% group_by(mac, city, location_id) %>% summarise(n = n()) 

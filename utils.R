@@ -13,6 +13,7 @@ instalar <- function(paquete) {
 paquetes <- c('magrittr', 'dplyr', 'tidyr', 'readr',
               'ggplot2', 'stringr','readxl', 'aws.s3', 'corrplot',
               'reshape2', 'lubridate', 'Hmisc', 'gridExtra', #'mxmaps', 'mapproj',
-              'BBmisc', 'ggthemes', 'RcppRoll', 'qualvar', 'gridExtra', 'grid')
+              'BBmisc', 'ggthemes', 'RcppRoll', 'qualvar', 'gridExtra', 'grid', 'ggraph',
+              'tidygraph')
 
 lapply(paquetes, instalar)
